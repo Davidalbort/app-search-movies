@@ -1,0 +1,20 @@
+https://www.omdbapi.com/?apikey=4287ad07&s=avenger
+
+Build app for search movies
+
+Api to use:
+
+https://www.omdbapi.com/
+-apiKey: 4287ad07
+
+Requirements :
+
+- Need to show an input to search movie and button to search
+- Render list of movies finding and show their title, year, and poster.
+- Make that movies to show in layout grid responsive.
+
+First iteration:
+
+- Prevent the same search from being performed twice in succession
+- Have the search performed automatically by typing
+- Prevent the search from being performed continuously when typing
