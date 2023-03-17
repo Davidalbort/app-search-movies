@@ -27,7 +27,6 @@ module.exports = {
 		quotes: ["error", "double"],
 		semi: ["error", "never"],
 		"react/react-in-jsx-scope": RULES.OFF,
-		"max-len": [RULES.ERROR, { code: 100 }, { tabWidth: 1 }],
 		"no-empty": RULES.WARN,
 	},
 }
