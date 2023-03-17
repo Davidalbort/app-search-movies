@@ -5,7 +5,10 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"test": "jest a --watch"
+		"test": "jest a",
+		"test:watch": "jest a --watch",
+		"prepare": "husky install",
+		"prettier:check": "prettier --write"
 	},
 	"author": "",
 	"license": "ISC",
@@ -20,9 +23,11 @@
 		"eslint": "^8.36.0",
 		"eslint-config-prettier": "^8.7.0",
 		"eslint-plugin-react": "^7.32.2",
+		"husky": "^8.0.3",
 		"identity-obj-proxy": "^3.0.0",
 		"jest": "^29.5.0",
 		"jest-environment-jsdom": "^29.5.0",
+		"lint-staged": "^13.2.0",
 		"prettier": "^2.8.4",
 		"ts-jest": "^29.0.5",
 		"ts-node": "^10.9.1",
