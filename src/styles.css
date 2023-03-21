@@ -5,6 +5,130 @@
 	font-size: 62.5%;
 }
 
+body {
+	background: rgb(46, 52, 58);
+}
+
 h1 {
 	font-size: 3rem;
+	text-align: center;
+}
+
+h2 {
+	font-size: 2rem;
+	text-align: center;
+}
+
+.page {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	padding: 1rem;
+}
+
+header {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-flow: column wrap;
+	gap: 1rem;
+	width: 100%;
+	max-width: 80rem;
+}
+
+form {
+	display: flex;
+	justify-content: center;
+	height: 10rem;
+	width: 100%;
+}
+
+fieldset {
+	display: flex;
+	flex-direction: column;
+	border: none;
+	width: 100%;
+	min-width: 50%;
+}
+
+fieldset > p {
+	color: red;
+	font-size: 1.5rem;
+	font-weight: 600;
+	margin-top: 1rem;
+	gap: 1rem;
+}
+
+label {
+	font-size: 1.5rem;
+	font-weight: 600;
+}
+
+input {
+	font-size: 1.5rem;
+	padding: 0.5rem;
+	background: inherit;
+	border-radius: 0.5rem;
+	font-size: 1.5rem;
+	font-weight: 600;
+	margin-right: 0.5rem;
+}
+
+.error:focus {
+	outline-color: red;
+}
+
+button {
+	max-width: 20rem;
+	min-width: 8rem;
+	height: 3rem;
+	margin-top: 2rem;
+	font-size: 1.5rem;
+	font-weight: bold;
+	border-radius: 1rem;
+	background-color: cadetblue;
+	transition: ease;
+}
+
+button:hover {
+	cursor: pointer;
+	transform: translateY(2px);
+}
+
+main {
+	width: 100%;
+}
+
+li {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	margin-bottom: 2rem;
+}
+
+li > span {
+	font-size: 1.5rem;
+	font-weight: 600;
+}
+
+li > img {
+	max-width: 35rem;
+	border-radius: 1rem;
+	object-fit: contain;
+}
+
+@media only screen and (min-width: 600px) {
+	ul {
+		width: 100%;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 2rem;
+	}
+	li > img {
+		max-width: 25rem;
+	}
 }
