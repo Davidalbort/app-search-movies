@@ -1,10 +1,62 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react"
 import { App } from "./App"
+import { searchMovies } from "./utils/services/search/searchMovies"
+
+jest.mock("./utils/services/search/searchMovies.ts", () => ({
+	searchMovies: jest.fn(),
+}))
 describe("<App/>", () => {
-	afterEach(cleanup)
+	afterEach(() => {
+		jest.resetAllMocks()
+		cleanup
+	})
 	test("Render correct component", () => {
 		const { getByRole } = render(<App />)
-		const title = getByRole("heading")
-		expect(title.textContent).toBe("Search Films")
+		const title = getByRole("heading", { name: "Search Films" })
+		expect(title).toBeInTheDocument()
+	})
+	test("Show form with input and button for search", () => {
+		const { getByRole } = render(<App />)
+		const input = getByRole("textbox")
+		const button = getByRole("button")
+		expect(input).toBeInTheDocument()
+		expect(button).toBeInTheDocument()
+	})
+	test("should display information in input, when user typing ", () => {
+		const { getByLabelText } = render(<App />)
+		const input = getByLabelText("search")
+		fireEvent.change(input, { target: { value: "hello" } })
+		expect(input).toHaveValue("hello")
+	})
+	test("Not allow typing if there is an empty space start word", () => {
+		const { getByLabelText } = render(<App />)
+		const input = getByLabelText("search")
+		fireEvent.change(input, { target: { value: " hello" } })
+		expect(input).toHaveValue("")
+	})
+	test("Should display message error if there is number", () => {
+		const { getByLabelText } = render(<App />)
+		const input = getByLabelText("search")
+		fireEvent.change(input, { target: { value: "3" } })
+		expect(
+			screen.getByText("Can't search movies with number")
+		).toBeInTheDocument()
+	})
+	//second part
+	test("Should display message error, when user clicked search and field is empty", () => {
+		const { getByRole } = render(<App />)
+		const button = getByRole("button")
+		fireEvent.click(button)
+		expect(
+			screen.getByText("Can't search movies with empty fields")
+		).toBeInTheDocument()
+	})
+	test("Should call searchMovies correct, when user write correct input", () => {
+		const { getByLabelText, getByRole } = render(<App />)
+		const input = getByLabelText("search")
+		const button = getByRole("button")
+		fireEvent.change(input, { target: { value: "avenger" } })
+		fireEvent.click(button)
+		expect(searchMovies).toHaveBeenCalled()
 	})
 })
