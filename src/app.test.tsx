@@ -10,10 +10,11 @@ describe("<App/>", () => {
 		jest.resetAllMocks()
 		cleanup
 	})
-	test("Render correct component", () => {
-		const { getByRole } = render(<App />)
+	test("Render correct component, without display any messages", () => {
+		const { getByRole, queryByRole } = render(<App />)
 		const title = getByRole("heading", { name: "Search Films" })
 		expect(title).toBeInTheDocument()
+		expect(queryByRole("alertdialog")).toBe(null)
 	})
 	test("Show form with input and button for search", () => {
 		const { getByRole } = render(<App />)
@@ -58,5 +59,16 @@ describe("<App/>", () => {
 		fireEvent.change(input, { target: { value: "avenger" } })
 		fireEvent.click(button)
 		expect(searchMovies).toHaveBeenCalled()
+	})
+	test("Should display message, when not found the movie", () => {
+		const { getByLabelText, getByRole, findByText } = render(<App />)
+		const input = getByLabelText("search")
+		const button = getByRole("button")
+		fireEvent.change(input, { target: { value: "albort" } })
+		fireEvent.click(button)
+		const message = findByText("Cannot found the movie with that word")
+		setTimeout(() => {
+			expect(message).toBeInTheDocument()
+		}, 2000)
 	})
 })

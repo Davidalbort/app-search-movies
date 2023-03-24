@@ -1,12 +1,13 @@
 import { useState } from "react"
 import { Form } from "./components/form/Form"
 import { Movies } from "./components/movies/Movies"
+// import { NotFound } from "./components/notFound/NotFound"
 import { useSearch } from "./hooks/useSearch"
-import { SearchFromApi } from "./types/types.td"
+import { Movie } from "./types/types.td"
 import { searchMovies } from "./utils/services/search/searchMovies"
 
 function useMovies() {
-	const [movies, setMovies] = useState<SearchFromApi[]>([])
+	const [movies, setMovies] = useState<Movie[]>()
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState("")
 	const getMovies = async (search: string) => {
@@ -26,7 +27,7 @@ function useMovies() {
 
 export function App() {
 	const { search, message, handleChange, updateMessage } = useSearch()
-	const { movies, getMovies, error } = useMovies()
+	const { movies, getMovies, error, loading } = useMovies()
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
 		if (!search) {
@@ -34,6 +35,7 @@ export function App() {
 		}
 		getMovies(search)
 	}
+
 	return (
 		<div className="page">
 			<header>
@@ -46,8 +48,9 @@ export function App() {
 				/>
 			</header>
 			<main>
-				<Movies results={movies} />
+				{loading ? <span>Loading</span> : movies && <Movies results={movies} />}
 			</main>
+
 			{error && <span>{error}</span>}
 		</div>
 	)
