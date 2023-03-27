@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { Form } from "./components/form/Form"
 import { Movies } from "./components/movies/Movies"
 // import { NotFound } from "./components/notFound/NotFound"
@@ -28,12 +28,15 @@ function useMovies() {
 export function App() {
 	const { search, message, handleChange, updateMessage } = useSearch()
 	const { movies, getMovies, error, loading } = useMovies()
+	const lastSearch = useRef("")
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
 		if (!search) {
 			updateMessage("Can't search movies with empty fields")
 		}
+		if (lastSearch.current === search) return
 		getMovies(search)
+		lastSearch.current = search
 	}
 
 	return (

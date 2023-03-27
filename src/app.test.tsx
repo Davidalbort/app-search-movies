@@ -71,4 +71,13 @@ describe("<App/>", () => {
 			expect(message).toBeInTheDocument()
 		}, 2000)
 	})
+	test("Prevent the same search from being performed twice in succession", () => {
+		const { getByLabelText, getByRole } = render(<App />)
+		const input = getByLabelText("search")
+		const button = getByRole("button")
+		fireEvent.change(input, { target: { value: "albort" } })
+		fireEvent.click(button)
+		fireEvent.click(button)
+		expect(searchMovies).toHaveBeenCalledTimes(1)
+	})
 })
