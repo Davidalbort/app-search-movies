@@ -1,34 +1,16 @@
-import { useRef, useState } from "react"
+import { useRef } from "react"
 import { Form } from "./components/form/Form"
 import { Movies } from "./components/movies/Movies"
-// import { NotFound } from "./components/notFound/NotFound"
+import { useMovies } from "./hooks/useMovies"
 import { useSearch } from "./hooks/useSearch"
-import { Movie } from "./types/types.td"
-import { searchMovies } from "./utils/services/search/searchMovies"
-
-function useMovies() {
-	const [movies, setMovies] = useState<Movie[]>()
-	const [loading, setLoading] = useState(false)
-	const [error, setError] = useState("")
-	const getMovies = async (search: string) => {
-		try {
-			setLoading(true)
-			const newMovie = await searchMovies(search)
-			setMovies(newMovie)
-		} catch (error) {
-			setError(`${error}message`)
-		} finally {
-			setLoading(false)
-		}
-	}
-
-	return { movies, loading, getMovies, error }
-}
 
 export function App() {
-	const { search, message, handleChange, updateMessage } = useSearch()
-	const { movies, getMovies, error, loading } = useMovies()
+	const isRenderFirst = useRef(true)
 	const lastSearch = useRef("")
+	const { search, message, updateSearch, updateMessage } = useSearch({
+		isRenderFirst,
+	})
+	const { movies, getMovies, error, loading } = useMovies()
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
 		if (!search) {
@@ -37,6 +19,14 @@ export function App() {
 		if (lastSearch.current === search) return
 		getMovies(search)
 		lastSearch.current = search
+	}
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const newSearch = event.target.value
+		if (newSearch.startsWith(" ")) return
+		updateSearch(newSearch)
+		if (isRenderFirst.current) {
+			isRenderFirst.current = newSearch === ""
+		}
 	}
 
 	return (

@@ -1,19 +1,16 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 
-export function useSearch() {
+interface useSearchParam {
+	isRenderFirst: React.MutableRefObject<boolean>
+}
+export function useSearch({ isRenderFirst }: useSearchParam) {
 	const [search, setSearch] = useState("")
 	const [message, setMessage] = useState("")
-	const isRenderFirst = useRef(true)
-	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const newSearch = event.target.value
-		if (newSearch.startsWith(" ")) return
-		setSearch(newSearch)
-		if (isRenderFirst.current) {
-			isRenderFirst.current = newSearch === ""
-		}
-	}
 	const updateMessage = (text: string) => {
 		setMessage(text)
+	}
+	const updateSearch = (search: string) => {
+		setSearch(search)
 	}
 	useEffect(() => {
 		if (search.match(/^\d+$/)) {
@@ -26,5 +23,5 @@ export function useSearch() {
 		}
 		setMessage("")
 	}, [search])
-	return { search, message, handleChange, updateMessage }
+	return { search, message, updateSearch, updateMessage }
 }
