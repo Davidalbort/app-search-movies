@@ -8,7 +8,7 @@ jest.mock("./utils/services/search/searchMovies.ts", () => ({
 describe("<App/>", () => {
 	afterEach(() => {
 		jest.resetAllMocks()
-		cleanup
+		cleanup()
 	})
 	test("Render correct component, without display any messages", () => {
 		const { getByRole, queryByRole } = render(<App />)
@@ -78,6 +78,12 @@ describe("<App/>", () => {
 		fireEvent.change(input, { target: { value: "albort" } })
 		fireEvent.click(button)
 		fireEvent.click(button)
-		expect(searchMovies).toHaveBeenCalledTimes(1)
+		expect(searchMovies).toHaveBeenCalledTimes(2)
+	})
+	test("Have to search performed automatically by typing", () => {
+		const { getByLabelText } = render(<App />)
+		const input = getByLabelText("search")
+		fireEvent.change(input, { target: { value: "abc" } })
+		expect(searchMovies).toHaveBeenCalled()
 	})
 })

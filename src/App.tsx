@@ -24,6 +24,7 @@ export function App() {
 		const newSearch = event.target.value
 		if (newSearch.startsWith(" ")) return
 		updateSearch(newSearch)
+		getMovies(newSearch)
 		if (isRenderFirst.current) {
 			isRenderFirst.current = newSearch === ""
 		}
